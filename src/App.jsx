@@ -47,6 +47,15 @@ function App() {
 			setCartItems(newData);
 		}
 	};
+	const onSendData = useCallback(() => {
+		telegram.sendData(JSON.stringify(cartItems));	
+	}, [cartItems])
+
+	useEffect(() => {
+		telegram.onEvent('mainButtonClicked', onSendData);
+
+		return () => telegram.offEvent('mainButtonClicked', onSendData);
+	}, [onSendData]);
 
 	
 	const onCheckout = () => {
